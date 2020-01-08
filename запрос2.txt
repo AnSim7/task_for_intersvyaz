@@ -1,0 +1,20 @@
+DROP TABLE IF EXISTS selected_users;
+
+CREATE TEMPORARY TABLE selected_users(
+country VARCHAR,
+mycount INTEGER);
+
+INSERT INTO selected_users
+SELECT users.country, users.id
+FROM users, history, categories where history.id_user=users.id and history.id_category=categories.id and categories.name='canned_food';
+
+SELECT selected_users.country, COUNT(selected_users.country) from  selected_users
+GROUP BY selected_users.country
+
+HAVING COUNT (selected_users.country)=( 
+SELECT MAX(mycount) 
+FROM (SELECT selected_users.country, COUNT(selected_users.country) mycount 
+from selected_users
+GROUP BY selected_users.country) as rating);
+
+

@@ -1,0 +1,4 @@
+SELECT COUNT(users_of_repeat_purchases.id_user) FROM (select transactions.id_user, count (transactions.id_user)
+from transactions
+GROUP BY transactions.id_user 
+HAVING COUNT(transactions.id_user) > 1) as users_of_repeat_purchases;

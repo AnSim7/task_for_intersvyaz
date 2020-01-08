@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Веб приложения для генерации аналитических отчетов</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<div class="name">
+    Интернет-магазин “Все на дно!”
+</div>
+<div class="main">
+    <div class="left_menu">
+        <h1>Отчеты</h1>
+        <ul>
+            <li><a href="reports/report1.phtml" target="_blank">Самая активная страна</a></li>
+            <li><a href="reports/report2.phtml" target="_blank">Самая активная страна по категориям</a></li>
+            <li><a href="reports/report3.phtml" target="_blank">Количество повторных покупок</a></li>
+        </ul>
+    </div>
+    <div class="right_menu">
+        Какое количество пользователей совершали повторные покупки за определенный период?
+        <?php
+        include('connection.php');
+        $sql="SELECT COUNT(users_of_repeat_purchases.id_user) FROM (select transactions.id_user, count (transactions.id_user)
+from transactions
+GROUP BY transactions.id_user 
+HAVING COUNT(transactions.id_user) > 1) as users_of_repeat_purchases;";
+        // Вывод результатов запроса
+        $result=pg_query($conn, $sql);
+        while($row=pg_fetch_array($result)) {
+            echo("<br/>");
+            echo("<div class='response'>$row[0]</div>");
+        }
+        ?>
+    </div>
+</div>
+<div class="basement"></div>
+</body>
+</html>

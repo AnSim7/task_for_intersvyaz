@@ -1,0 +1,8 @@
+SELECT users.country
+FROM  users where users.country<>''
+GROUP BY users.country
+HAVING COUNT (users.country)=( 
+SELECT MAX(mycount) 
+FROM (SELECT users.country, COUNT(users.country) mycount 
+FROM users 
+GROUP BY users.country) as rating);

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Веб приложения для генерации аналитических отчетов</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<div class="name">
+    Интернет-магазин “Все на дно!”
+</div>
+<div class="main">
+    <div class="left_menu">
+        <h1>Отчеты</h1>
+        <ul>
+            <li><a href="reports/report1.phtml" target="_blank">Самая активная страна</a></li>
+            <li><a href="reports/report2.phtml" target="_blank">Самая активная страна по категориям</a></li>
+            <li><a href="reports/report3.phtml" target="_blank">Количество повторных покупок</a></li>
+        </ul>
+    </div>
+    <div class="right_menu">
+        <p>Посетители из какой страны чаще всего интересуются товарами из определенных категорий?</p>
+        <p>Задать параметры:</p>
+        <p>Категория
+
+
+        <form method="post">
+            <select name="category">
+                <?php
+        include('connection.php');
+        $sql1="SELECT categories.name from categories;";
+
+                $result=pg_query($conn, $sql1);
+                while($row=pg_fetch_array($result)) {
+                    //вывод списком всех возможных категорий из БД
+                    echo("<option атрибуты>$row[0]</option>");
+                }
+?>
+            </select></p>
+        <input type='submit' name='submit' id='submit'/>
+        </form>
+
+        <?php
+        if($_POST['submit'])
+        {$category=$_POST['category'];
+        $sql="DROP TABLE IF EXISTS selected_users;
+        echo($category);
+
+CREATE TEMPORARY TABLE selected_users(
+country VARCHAR,
+mycount INTEGER);
+
+INSERT INTO selected_users
+SELECT users.country, users.id
+FROM users, history, categories where history.id_user=users.id and history.id_category=categories.id and categories.name='$category';
+
+SELECT selected_users.country, COUNT(selected_users.country) from  selected_users
+GROUP BY selected_users.country
+
+HAVING COUNT (selected_users.country)=( 
+SELECT MAX(mycount) 
+FROM (SELECT selected_users.country, COUNT(selected_users.country) mycount 
+from selected_users
+GROUP BY selected_users.country) as rating);
+
+
+";
+        // Вывод результатов запроса
+        $result=pg_query($conn, $sql);
+        while($row=pg_fetch_array($result)) {
+            echo("<br/>");
+            echo("<div class='response'>$row[0]</div>");
+        }}
+        ?>
+    </div>
+</div>
+<div class="basement"></div>
+</body>
+</html>

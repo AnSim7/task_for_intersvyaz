@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: auto;
+    padding: 10px 50px 10px 50px;
+    width: 1000px;
+    border: 2px solid grey;
+}
+
+.name {
+    padding: 30px;
+    font: bold italic 200% serif;
+    text-align:center;
+}
+
+.main {
+    width:904px;
+    height: 675px;
+    border: 2px solid grey;
+}
+.left_menu {
+    float:left;
+    width:250px;
+    height: auto;
+}
+
+.left_menu h1 {
+    padding: 0px 50px 30px;
+    font: bold 170% serif;
+}
+
+.left_menu ul {
+    padding-top: 10px;
+}
+
+.left_menu li {
+    list-style-type: none; /* Убираем маркеры */
+    padding: 10px;
+    font: bold 115% serif;
+}
+
+.left_menu li a {
+    text-decoration: none; /* Отменяем подчеркивание у ссылки */
+    color: black;
+}
+
+.right_menu {
+    padding: 30px 30px 30px;
+    float:right;
+    width:650px;
+    height: auto;
+    text-align:left;
+    font: 115% serif;
+
+}
+
+.response {
+    padding: 10px;
+    font: 185% serif;
+    text-align:center;
+}
+
+.basement {
+    text-align:center;
+}
